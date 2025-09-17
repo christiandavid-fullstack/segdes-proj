@@ -1,66 +1,51 @@
 import React from 'react';
-import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
-export default function Screen() {
+export default function Login() {
+  const handleSubmit = () => {
+    console.log('submit');
+  };
+
   return (
-    <View style={styles.container}>
-      <View style={styles.title}>
-         <Text style={styles.h1}>User Login</Text>
+    <KeyboardAvoidingView
+       className="flex-1"
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
+  
+    <View className="flex-1 justify-center px-5 bg-gray-100">
+      <View className="items-center mb-8">
+        <Text className="text-3xl font-bold text-gray-900">User Login</Text>
       </View>
-     
-      <View style={styles.form}>
-        <Text style={styles.label}>Email</Text>
-        <TextInput style={styles.input}  
-                   placeholder='Enter your email'/>
-        <Text style={styles.label}>Password</Text>
-        <TextInput style={styles.input}  
-                   secureTextEntry={true} 
-                   placeholder='Enter your password'/>
-        <Button title='Confirm' onPress={()=>{}}></Button>
+      <View className="bg-white p-6 rounded-2xl shadow-lg">
+        <Text className="text-base font-semibold text-gray-700 mb-2">Email</Text>
+        <TextInput
+          className="h-11 border border-gray-300 rounded-lg px-3 mb-4 bg-gray-50 text-gray-900"
+          placeholder="Enter your email"
+          placeholderTextColor="#9ca3af"
+        />
+        <Text className="text-base font-semibold text-gray-700 mb-2">Password</Text>
+        <TextInput
+          className="h-11 border border-gray-300 rounded-lg px-3 mb-6 bg-gray-50 text-gray-900"
+          secureTextEntry
+          placeholder="Enter your password"
+          placeholderTextColor="#9ca3af"
+        />
+        <View className='mb-2'>
+          <TouchableOpacity
+                  className="bg-blue-600 rounded-lg py-3 active:bg-blue-700"
+                  onPress={handleSubmit}
+                >
+          <Text className="text-white text-center text-base font-bold">Confirm</Text>
+        </TouchableOpacity>
+        </View>
+         <TouchableOpacity
+          className="bg-black rounded-lg py-3 active:bg-black-700"
+          onPress={handleSubmit}
+        >
+          <Text className="text-white text-center text-base font-bold">Register</Text>
+        </TouchableOpacity>
       </View>
     </View>
+    </KeyboardAvoidingView>
   );
 }
-
-const styles = StyleSheet.create({
-  container:{
-    flex:1,
-    justifyContent:"center",
-    paddingLeft:20,
-    paddingRight:20,
-    backgroundColor:"#f5f5f5",
-  },
-  title:{
-    alignItems:"center",
-    padding:20
-  },
-  h1:{
-    fontSize:20,
-  },
-  form:{
-     backgroundColor:"white",
-     padding:20,
-     borderRadius:10,
-     shadowColor:'black',
-     shadowOffset:{
-      width:0,
-      height:2
-     },
-     shadowOpacity:0.25,
-     shadowRadius: 4,
-     elevation:5
-  },
-  label:{
-    fontSize:16,
-    marginBottom: 5,
-    fontWeight:"bold"
-  },
-  input:{
-    height:40,
-    borderColor:"#ddd",
-    borderWidth:1,
-    marginBottom:15,
-    padding:10,
-    borderRadius:5
-  }
-})
