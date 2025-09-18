@@ -4,6 +4,7 @@ import { Slot, useRouter } from 'expo-router';
 
 import React from 'react';
 import { View } from 'react-native';
+import Toast from 'react-native-toast-message';
 
 export default function TierSelectionLayout() {
   const router = useRouter();
@@ -11,6 +12,10 @@ export default function TierSelectionLayout() {
 
   const handleBack = () => {
     logout();
+    Toast.show({
+      type: 'success',
+      text1: 'Logged out successfully',
+    });
     router.replace('/auth/login'); 
 //  router.push()	Pushes a new screen onto the stack (user can go back)
 // router.replace()	Replaces the current screen (user cannot go back)
