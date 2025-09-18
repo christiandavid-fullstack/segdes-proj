@@ -1,4 +1,5 @@
 import { useAuth } from '@/context/AuthContext';
+import { loginTyes } from '@/types/type';
 import { useRouter } from 'expo-router';
 import { Formik } from 'formik';
 import React, { useState } from 'react';
@@ -7,21 +8,12 @@ import Toast from 'react-native-toast-message';
 import { LoginInitialValues } from './schema/LoginInitialValues';
 import { LoginSchema } from './schema/LoginSchema';
 
-// const LoginSchema = Yup.object().shape({
-//   email: Yup.string()
-//     .email('Invalid email')
-//     .required('Email is required'),
-//   password: Yup.string()
-//     .min(4, 'Password too short!')
-//     .required('Password is required'),
-// });
-
 export default function Login() {
   const router = useRouter();
   const { login } = useAuth();
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (values: { email: string; password: string }) => {
+  const handleSubmit = async (values: loginTyes) => {
     setLoading(true);
     await new Promise((resolve) => setTimeout(resolve, 1000)); // simulate delay
 

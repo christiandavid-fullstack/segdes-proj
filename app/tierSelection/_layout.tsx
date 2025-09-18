@@ -1,8 +1,9 @@
+import Button from '@/components/buttons/Button';
 import { useAuth } from '@/context/AuthContext';
 import { Slot, useRouter } from 'expo-router';
 
 import React from 'react';
-import { Button, Text, View } from 'react-native';
+import { View } from 'react-native';
 
 export default function TierSelectionLayout() {
   const router = useRouter();
@@ -18,10 +19,11 @@ export default function TierSelectionLayout() {
 
   return (
     <View className="flex-1 pt-10 bg-gray-100">
-      <View className="h-15 bg-blue-500 justify-center px-4">
+      {/* <View className="h-15 bg-blue-500 justify-center px-4">
         <Text className="text-white text-lg font-bold">Selection of Tier</Text>
         <Button title="Go Back" onPress={handleBack} />
-      </View>
+      </View> */}
+      <Button title="Logout" onPress={handleBack}  />
       <View className="flex-1 p-4">
         <Slot />
       </View>
