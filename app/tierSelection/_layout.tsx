@@ -1,3 +1,4 @@
+import { useAuth } from '@/context/AuthContext';
 import { Slot, useRouter } from 'expo-router';
 
 import React from 'react';
@@ -5,9 +6,11 @@ import { Button, Text, View } from 'react-native';
 
 export default function TierSelectionLayout() {
   const router = useRouter();
+  const {logout} = useAuth();
 
   const handleBack = () => {
-    router.back();
+    logout();
+    router.replace('/auth/login'); 
 //  router.push()	Pushes a new screen onto the stack (user can go back)
 // router.replace()	Replaces the current screen (user cannot go back)
 // router.back()	Navigates back in history (like Android/iOS back button)

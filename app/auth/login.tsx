@@ -1,16 +1,39 @@
+import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
-import { KeyboardAvoidingView, Platform, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, KeyboardAvoidingView, Platform, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import Toast from 'react-native-toast-message';
 
 export default function Login() {
    const router = useRouter();
    const [email, setEmail] = useState('');
    const [password, setPassword] = useState('');
-   const handleSubmit = () => {
-    console.log('submit');
-    router.push({ pathname:'/tierSelection',
-         params: { email, password }
-    });
+   const [loading, setLoading] = useState(false);
+   const {login } = useAuth();
+   const handleSubmit = async () => {
+    setLoading(true);
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    const user = login(email, password);
+      if (user) {
+        Toast.show({
+          type: 'success',
+          text1: 'Login Successful',
+          text2: `Welcome, ${email}!`
+        });
+      router.replace({ pathname:'/tierSelection',
+        params: { email, password }
+      });
+    } else {
+      Toast.show({
+        type: 'error',
+        text1: 'Login Failed',
+        text2: 'Invalid email or password.'
+      });
+    }
+    // router.push({ pathname:'/tierSelection',
+    //      params: { email, password }
+    // });
+    setLoading(false);
   }
 
   return (
@@ -40,12 +63,21 @@ export default function Login() {
           placeholderTextColor="#9ca3af"
         />
         <View className='mb-2'>
+       {loading ? (
           <TouchableOpacity
-                  className="bg-blue-600 rounded-lg py-3 active:bg-blue-700"
-                  onPress={handleSubmit}
-                >
-          <Text className="text-white text-center text-base font-bold">Confirm</Text>
-        </TouchableOpacity>
+            className="bg-blue-400 rounded-lg py-3 opacity-70"
+            disabled
+          >
+            <ActivityIndicator size="small" color="#fff" />
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            className="bg-blue-600 rounded-lg py-3 active:bg-blue-700"
+            onPress={handleSubmit}
+          >
+            <Text className="text-white text-center text-base font-bold">Confirm</Text>
+          </TouchableOpacity>
+        )}
         </View>
          <TouchableOpacity
           className="bg-black rounded-lg py-3 active:bg-black-700"
@@ -54,7 +86,7 @@ export default function Login() {
           <Text className="text-white text-center text-base font-bold">Register</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={()=>{}} className="mt-4">
-          <Text className="text-center text-black underline text-base font-medium text-sm">
+          <Text className="text-center text-black underline font-medium text-sm">
             Continue as a Guest
           </Text>
         </TouchableOpacity>

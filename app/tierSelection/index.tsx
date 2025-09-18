@@ -10,9 +10,7 @@ export default function Selection() {
 
   return (
     <View style={{ padding: 20 }}>
-      <Text>Selection Screen</Text>
-      <Text>Email: {email}</Text>
-      <Text>Password: {password}</Text>
+      <Text>Hi, {email}</Text>
     </View>
   );
 }
