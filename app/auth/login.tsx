@@ -1,10 +1,17 @@
-import React from 'react';
+import { useRouter } from 'expo-router';
+import React, { useState } from 'react';
 import { KeyboardAvoidingView, Platform, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 export default function Login() {
-  const handleSubmit = () => {
+   const router = useRouter();
+   const [email, setEmail] = useState('');
+   const [password, setPassword] = useState('');
+   const handleSubmit = () => {
     console.log('submit');
-  };
+    router.push({ pathname:'/tierSelection',
+         params: { email, password }
+    });
+  }
 
   return (
     <KeyboardAvoidingView
@@ -22,11 +29,13 @@ export default function Login() {
           className="h-11 border border-gray-300 rounded-lg px-3 mb-4 bg-gray-50 text-gray-900"
           placeholder="Enter your email"
           placeholderTextColor="#9ca3af"
-        />
+          onChangeText={setEmail}
+/>
         <Text className="text-base font-semibold text-gray-700 mb-2">Password</Text>
         <TextInput
           className="h-11 border border-gray-300 rounded-lg px-3 mb-6 bg-gray-50 text-gray-900"
           secureTextEntry
+          onChangeText={setPassword}
           placeholder="Enter your password"
           placeholderTextColor="#9ca3af"
         />
@@ -40,9 +49,14 @@ export default function Login() {
         </View>
          <TouchableOpacity
           className="bg-black rounded-lg py-3 active:bg-black-700"
-          onPress={handleSubmit}
+          onPress={()=>{}}
         >
           <Text className="text-white text-center text-base font-bold">Register</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={()=>{}} className="mt-4">
+          <Text className="text-center text-black underline text-base font-medium text-sm">
+            Continue as a Guest
+          </Text>
         </TouchableOpacity>
       </View>
     </View>
