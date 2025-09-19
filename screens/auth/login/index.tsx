@@ -76,7 +76,7 @@ export default function LoginScreen() {
         }}
       >
         <View className="items-center mb-8">
-          <Text className="text-3xl font-bold text-gray-900">User Login</Text>
+          <Text className="text-3xl font-bold text-gray-900">Segdes: ESIM</Text>
         </View>
 
         <Formik
