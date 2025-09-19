@@ -15,15 +15,9 @@ import {
 import Toast from 'react-native-toast-message';
 import * as Yup from 'yup';
 
-type LoginTypes = {
-  email: string;
-  password: string;
-};
+type LoginTypes = { email: string; password: string };
 
-const initialValues: LoginTypes = {
-  email: '',
-  password: '',
-};
+const initialValues: LoginTypes = { email: '', password: '' };
 
 const validationSchema = Yup.object({
   email: Yup.string().email('Invalid email').required('Email is required'),
@@ -35,38 +29,33 @@ export default function LoginScreen() {
   const { login } = useAuth();
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (values: LoginTypes) => {
-    setLoading(true);
-    await new Promise((resolve) => setTimeout(resolve, 1000)); 
+  const handleSubmitEmail = async (values: LoginTypes) => {
+    try {
+      setLoading(true);
+      await new Promise((r) => setTimeout(r, 600)); // small UX delay
+      const ok = await login(values.email, values.password);
 
-    const user = login(values.email, values.password);
-    if (user) {
-      Toast.show({
-        type: 'success',
-        text1: 'Login Successful',
-        text2: `Welcome, ${values.email}!`,
-      });
-
-      router.replace({
-        pathname: '/tierSelection/tier-selection',
-        params: { email: values.email, password: values.password },
-      });
-    } else {
-      Toast.show({
-        type: 'error',
-        text1: 'Login Failed',
-        text2: 'Invalid email or password.',
-      });
+      if (ok) {
+        Toast.show({
+          type: 'success',
+          text1: 'Login Successful',
+          text2: `Logged in: ${values.email}`,
+        });
+        router.replace('/tierSelection/tier-selection');
+      } else {
+        Toast.show({
+          type: 'error',
+          text1: 'Login Failed',
+          text2: 'Invalid email or password.',
+        });
+      }
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   };
 
   return (
-    <KeyboardAvoidingView
-      style={{ flex: 1 }}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-    >
+    <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <ScrollView
         contentContainerStyle={{
           flexGrow: 1,
@@ -79,23 +68,10 @@ export default function LoginScreen() {
           <Text className="text-3xl font-bold text-gray-900">Segdes: ESIM</Text>
         </View>
 
-        <Formik
-          initialValues={initialValues}
-          validationSchema={validationSchema}
-          onSubmit={handleSubmit}
-        >
-          {({
-            handleChange,
-            handleBlur,
-            handleSubmit,
-            values,
-            errors,
-            touched,
-          }) => (
+        <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmitEmail}>
+          {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
             <View className="bg-white p-6 rounded-2xl shadow-lg">
-              <Text className="text-base font-semibold text-gray-700 mb-2">
-                Email
-              </Text>
+              <Text className="text-base font-semibold text-gray-700 mb-2">Email</Text>
               <TextInput
                 className="h-11 border border-gray-300 rounded-lg px-3 mb-1 bg-gray-50 text-gray-900"
                 placeholder="Enter your email"
@@ -107,13 +83,9 @@ export default function LoginScreen() {
                 value={values.email}
                 editable={!loading}
               />
-              {errors.email && touched.email && (
-                <Text className="text-red-600 mb-2">{errors.email}</Text>
-              )}
+              {errors.email && touched.email && <Text className="text-red-600 mb-2">{errors.email}</Text>}
 
-              <Text className="text-base font-semibold text-gray-700 mb-2">
-                Password
-              </Text>
+              <Text className="text-base font-semibold text-gray-700 mb-2">Password</Text>
               <TextInput
                 className="h-11 border border-gray-300 rounded-lg px-3 mb-2 bg-gray-50 text-gray-900"
                 secureTextEntry
@@ -124,48 +96,29 @@ export default function LoginScreen() {
                 value={values.password}
                 editable={!loading}
               />
-              {errors.password && touched.password && (
-                <Text className="text-red-600 mb-2">{errors.password}</Text>
-              )}
+              {errors.password && touched.password && <Text className="text-red-600 mb-2">{errors.password}</Text>}
 
               <View className="mb-2">
                 <TouchableOpacity
-                  className={`rounded-lg py-3 ${
-                    loading
-                      ? 'bg-blue-400 opacity-70'
-                      : 'bg-blue-600 active:bg-blue-700'
-                  }`}
+                  className={`rounded-lg py-3 ${loading ? 'bg-blue-400 opacity-70' : 'bg-blue-600 active:bg-blue-700'}`}
                   onPress={() => handleSubmit()}
                   disabled={loading}
                 >
                   {loading ? (
                     <ActivityIndicator size="small" color="#fff" />
                   ) : (
-                    <Text className="text-white text-center text-base font-bold">
-                      Confirm
-                    </Text>
+                    <Text className="text-white text-center text-base font-bold">Sign in</Text>
                   )}
                 </TouchableOpacity>
               </View>
 
-              <TouchableOpacity
-                className="bg-black rounded-lg py-3 active:bg-black-700"
-                onPress={() => {}}
-                disabled={loading}
-              >
-                <Text className="text-white text-center text-base font-bold">
-                  Register
-                </Text>
+              {/* Optional: keep these as stubs */}
+              <TouchableOpacity className="bg-black rounded-lg py-3" onPress={() => {}} disabled={loading}>
+                <Text className="text-white text-center text-base font-bold">Register</Text>
               </TouchableOpacity>
 
-              <TouchableOpacity
-                onPress={() => {}}
-                className="mt-4"
-                disabled={loading}
-              >
-                <Text className="text-center text-black underline font-medium text-sm">
-                  Continue as a Guest
-                </Text>
+              <TouchableOpacity onPress={() => {}} className="mt-4" disabled={loading}>
+                <Text className="text-center text-black underline font-medium text-sm">Continue as a Guest</Text>
               </TouchableOpacity>
             </View>
           )}
