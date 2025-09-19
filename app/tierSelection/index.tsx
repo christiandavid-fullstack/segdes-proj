@@ -5,7 +5,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { useLocalSearchParams } from 'expo-router';
 import React from 'react';
 import { ScrollView, Text, TouchableOpacity } from 'react-native';
 
@@ -16,11 +15,11 @@ const tiers = [
 ];
 
 export default function Selection() {
-  const params = useLocalSearchParams();
+  // const params = useLocalSearchParams();
 
   return (
     <ScrollView
-      className="flex-1 bg-white p-5"
+      className="flex-1 p-5"
       showsVerticalScrollIndicator={false}
       contentContainerStyle={{ alignItems: 'center', paddingVertical: 20 }}
     >

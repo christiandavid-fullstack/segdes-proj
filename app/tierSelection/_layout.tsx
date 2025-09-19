@@ -1,9 +1,8 @@
-import Button from '@/components/buttons/Button';
 import { useAuth } from '@/context/AuthContext';
 import { Slot, useRouter } from 'expo-router';
 
 import React from 'react';
-import { View } from 'react-native';
+import { Button, View } from 'react-native';
 import Toast from 'react-native-toast-message';
 
 export default function TierSelectionLayout() {
@@ -28,7 +27,7 @@ export default function TierSelectionLayout() {
         <Text className="text-white text-lg font-bold">Selection of Tier</Text>
         <Button title="Go Back" onPress={handleBack} />
       </View> */}
-      <Button title="Logout" onPress={handleBack}  />
+      <Button title="Logout" onPress={handleBack} color="#000000" />
       <View className="flex-1 p-4">
         <Slot />
       </View>
