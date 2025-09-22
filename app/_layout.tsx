@@ -6,7 +6,7 @@ import { AuthProvider } from '@/context/AuthContext';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { Stack } from 'expo-router';
 import Toast from 'react-native-toast-message';
-
+import "../globals.css";
 export default function RootLayout() {
   const colorScheme = useColorScheme();
  

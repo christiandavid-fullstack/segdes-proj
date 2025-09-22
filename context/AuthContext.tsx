@@ -26,7 +26,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     if (email === dummyEmail && password === dummyPassword) {
       setUser({
         id: '1',
-        name: 'John Doe',
+        name: 'admin',
         email: dummyEmail,
       });
       return true;
