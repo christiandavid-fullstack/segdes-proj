@@ -1,65 +1,38 @@
-import { useAuth } from '@/context/AuthContext';
-import { useRouter } from 'expo-router';
-import { Formik } from 'formik';
-import React, { useState } from 'react';
+
+import { FormInput } from '@/components/ui/formInput';
+import { useLogin } from '@/hooks/auth/login';
+import { zodResolver } from '@hookform/resolvers/zod';
+import React from 'react';
+import { useForm } from 'react-hook-form';
 import {
   ActivityIndicator,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
   Text,
-  TextInput,
   TouchableOpacity,
-  View,
+  View
 } from 'react-native';
-import Toast from 'react-native-toast-message';
-import * as Yup from 'yup';
+import { loginSchema, LoginSchema } from './loginSchema';
 
-type LoginTypes = {
-  email: string;
-  password: string;
-};
-
-const initialValues: LoginTypes = {
-  email: '',
-  password: '',
-};
-
-const validationSchema = Yup.object({
-  email: Yup.string().email('Invalid email').required('Email is required'),
-  password: Yup.string().min(6, 'Minimum 6 characters').required('Password is required'),
-});
 
 export default function LoginScreen() {
-  const router = useRouter();
-  const { login } = useAuth();
-  const [loading, setLoading] = useState(false);
+  const { handleLogin, loading } = useLogin();
 
-  const handleSubmit = async (values: LoginTypes) => {
-    setLoading(true);
-    await new Promise((resolve) => setTimeout(resolve, 1000)); 
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginSchema>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+  });
 
-    const user = login(values.email, values.password);
-    if (user) {
-      Toast.show({
-        type: 'success',
-        text1: 'Login Successful',
-        text2: `Welcome, ${values.email}!`,
-      });
-
-      router.replace({
-        pathname: '/tierSelection/tier-selection',
-        params: { email: values.email, password: values.password },
-      });
-    } else {
-      Toast.show({
-        type: 'error',
-        text1: 'Login Failed',
-        text2: 'Invalid email or password.',
-      });
-    }
-
-    setLoading(false);
+  const onSubmit = (data: LoginSchema) => {
+    handleLogin(data.email, data.password);
   };
 
   return (
@@ -79,97 +52,67 @@ export default function LoginScreen() {
           <Text className="text-3xl font-bold text-gray-900">User Login</Text>
         </View>
 
-        <Formik
-          initialValues={initialValues}
-          validationSchema={validationSchema}
-          onSubmit={handleSubmit}
-        >
-          {({
-            handleChange,
-            handleBlur,
-            handleSubmit,
-            values,
-            errors,
-            touched,
-          }) => (
-            <View className="bg-white p-6 rounded-2xl shadow-lg">
-              <Text className="text-base font-semibold text-gray-700 mb-2">
-                Email
-              </Text>
-              <TextInput
-                className="h-11 border border-gray-300 rounded-lg px-3 mb-1 bg-gray-50 text-gray-900"
-                placeholder="Enter your email"
-                placeholderTextColor="#9ca3af"
-                keyboardType="email-address"
-                autoCapitalize="none"
-                onChangeText={handleChange('email')}
-                onBlur={handleBlur('email')}
-                value={values.email}
-                editable={!loading}
-              />
-              {errors.email && touched.email && (
-                <Text className="text-red-600 mb-2">{errors.email}</Text>
-              )}
+        <View className="bg-white p-6 rounded-2xl shadow-lg">
+          <FormInput
+          label='Email'
+            name="email"
+            control={control}
+             placeholder="Enter your email"
+              keyboardType="email-address"
+              autoCapitalize="none"
+              editable={!loading}
+              error={errors.email?.message}            
+          />
+          <FormInput
+          label='Password'
+            name="password"
+            control={control}
+            placeholder="Enter your password"
+            secureTextEntry
+            editable={!loading}
+            error={errors.password?.message}
+          />
 
-              <Text className="text-base font-semibold text-gray-700 mb-2">
-                Password
-              </Text>
-              <TextInput
-                className="h-11 border border-gray-300 rounded-lg px-3 mb-2 bg-gray-50 text-gray-900"
-                secureTextEntry
-                placeholder="Enter your password"
-                placeholderTextColor="#9ca3af"
-                onChangeText={handleChange('password')}
-                onBlur={handleBlur('password')}
-                value={values.password}
-                editable={!loading}
-              />
-              {errors.password && touched.password && (
-                <Text className="text-red-600 mb-2">{errors.password}</Text>
-              )}
-
-              <View className="mb-2">
-                <TouchableOpacity
-                  className={`rounded-lg py-3 ${
-                    loading
-                      ? 'bg-blue-400 opacity-70'
-                      : 'bg-blue-600 active:bg-blue-700'
-                  }`}
-                  onPress={() => handleSubmit()}
-                  disabled={loading}
-                >
-                  {loading ? (
-                    <ActivityIndicator size="small" color="#fff" />
-                  ) : (
-                    <Text className="text-white text-center text-base font-bold">
-                      Confirm
-                    </Text>
-                  )}
-                </TouchableOpacity>
-              </View>
-
-              <TouchableOpacity
-                className="bg-black rounded-lg py-3 active:bg-black-700"
-                onPress={() => {}}
-                disabled={loading}
-              >
+          <View className="mb-2">
+            <TouchableOpacity
+              className={`rounded-lg py-3 ${
+                loading
+                  ? 'bg-blue-400 opacity-70'
+                  : 'bg-blue-600 active:bg-blue-700'
+              }`}
+              onPress={handleSubmit(onSubmit)}
+              disabled={loading}
+            >
+              {loading ? (
+                <ActivityIndicator size="small" color="#fff" />
+              ) : (
                 <Text className="text-white text-center text-base font-bold">
-                  Register
+                  Confirm
                 </Text>
-              </TouchableOpacity>
+              )}
+            </TouchableOpacity>
+          </View>
 
-              <TouchableOpacity
-                onPress={() => {}}
-                className="mt-4"
-                disabled={loading}
-              >
-                <Text className="text-center text-black underline font-medium text-sm">
-                  Continue as a Guest
-                </Text>
-              </TouchableOpacity>
-            </View>
-          )}
-        </Formik>
+          <TouchableOpacity
+            className="bg-black rounded-lg py-3 active:bg-black-700"
+            onPress={() => {}}
+            disabled={loading}
+          >
+            <Text className="text-white text-center text-base font-bold">
+              Register
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => {}}
+            className="mt-4"
+            disabled={loading}
+          >
+            <Text className="text-center text-black underline font-medium text-sm">
+              Continue as a Guest
+            </Text>
+          </TouchableOpacity>
+        </View>
       </ScrollView>
     </KeyboardAvoidingView>
   );
