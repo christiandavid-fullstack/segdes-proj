@@ -30,10 +30,7 @@ export default function LoginScreen() {
   });
 
   const onSubmit = (data: LoginSchema) => {
-    handleLogin(data.email, data.password);
-  };
-  const onAnonymousLogin = () => {
-    anonymousLogin();
+    handleLogin(data);
   };
 
   return (
@@ -78,8 +75,8 @@ export default function LoginScreen() {
             <TouchableOpacity
               className={`rounded-lg py-3 ${
                 loading
-                  ? 'bg-blue-400 opacity-70'
-                  : 'bg-blue-600 active:bg-blue-700'
+                  ? 'bg-blue-500'
+                  : 'bg-blue-600 active:bg-blue-500'
               }`}
               onPress={handleSubmit(onSubmit)}
               disabled={loading}
@@ -114,7 +111,8 @@ export default function LoginScreen() {
             <Text className="text-center text-black underline font-medium text-sm" >
              Forget Password?
             </Text>
-            <Text className="text-center text-black underline font-medium text-sm" onPress={onAnonymousLogin}>
+            <Text className="text-center text-black underline font-medium text-sm" 
+              onPress={anonymousLogin}>
               Anonymous for testing
             </Text>
           </TouchableOpacity>

@@ -1,38 +1,26 @@
 import { FormInput } from '@/components/ui/formInput';
+import { useSignup } from '@/hooks/auth/signup';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { router } from 'expo-router';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import {
+  ActivityIndicator,
   KeyboardAvoidingView,
   Platform,
   Text,
   TouchableOpacity,
   View
 } from 'react-native';
-import Toast from 'react-native-toast-message';
 import signupDefaultValues from './signupSchema/signupDefaultValues';
 import { signupSchema, SignupSchema } from './signupSchema/signupSchema';
 
 export default function SignupScreen() {
+  const { handleSignup, loading } = useSignup();  
     const { control, handleSubmit, formState: { errors } } = useForm<SignupSchema>({
       resolver: zodResolver(signupSchema),
       defaultValues: signupDefaultValues
     });
-   const handleSignup = (data:SignupSchema) => {
-     // console.log('Signup pressed', {
-    //   fullName: data.fullName,
-    //   email: data.email,
-    //   password: data.password,
-    //   confirmPassword: data.confirmPassword,
-    // });
-    Toast.show({
-      type: 'success',
-      text1: 'Signup Successfully',
-      text2: `Welcome, ${data.fullName}!`,
-    });
-     router.replace('/tierSelection/tier-selection');
-  };
 
   return (
     <KeyboardAvoidingView
@@ -81,11 +69,16 @@ export default function SignupScreen() {
         />
         <TouchableOpacity
           onPress={handleSubmit(handleSignup)}
-          className="bg-blue-600 rounded-md py-4"
+          className={`rounded-md py-4 ${loading ? 'bg-blue-500 ' : 'bg-blue-700'}`}
+          disabled={loading}
         >
-          <Text className="text-white text-center text-lg font-semibold">
-            Sign Up
-          </Text>
+          {loading ? (
+            <ActivityIndicator size="small" color="#fff" />
+          ) : (
+            <Text className="text-white text-center text-lg font-semibold">
+              Sign Up
+            </Text>
+          )}
         </TouchableOpacity>
 
         <Text className="text-center text-gray-500 mt-4">

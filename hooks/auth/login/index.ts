@@ -1,4 +1,5 @@
 import { useAuth } from '@/context/AuthContext';
+import { LoginSchema } from '@/screens/auth/login/loginSchema';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import Toast from 'react-native-toast-message';
@@ -8,21 +9,23 @@ export function useLogin() {
   const router = useRouter();
   const { login } = useAuth();
 
-  const handleLogin = async (email: string, password: string) => {
+  const handleLogin = async (data:LoginSchema) => {
     setLoading(true);
     await new Promise((resolve) => setTimeout(resolve, 1000)); // fake delay
-
-    const user = login(email, password);
+    const user = login(data.email, data.password);
     if (user) {
       Toast.show({
         type: 'success',
         text1: 'Login Successful',
-        text2: `Welcome, ${email}!`,
+        text2: `Welcome, ${data.email}!`,
       });
 
       router.replace({
         pathname: '/tierSelection/tier-selection',
-        params: { email, password },
+        params: { 
+            email:data.email, 
+            password:data.password 
+          },
       });
     } else {
       Toast.show({
