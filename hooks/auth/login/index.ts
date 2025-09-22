@@ -35,8 +35,16 @@ export function useLogin() {
     setLoading(false);
   };
 
+  const anonymousLogin = () => {
+    router.replace({
+      pathname: '/tierSelection/tier-selection',
+      params: { email: 'anonymous', password: 'anonymous' },
+    });
+  }
+
   return {
     handleLogin,
     loading,
+    anonymousLogin
   };
 }

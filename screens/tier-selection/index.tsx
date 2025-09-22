@@ -35,7 +35,7 @@ export default function TierSelectionScreen() {
   };
   return (
     <ScrollView
-      className="flex-1 p-5"
+      className="flex-1 p-10"
       showsVerticalScrollIndicator={false}
       contentContainerStyle={{ alignItems: 'center', paddingVertical: 20 }}
     >
