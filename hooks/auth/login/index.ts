@@ -38,11 +38,18 @@ export function useLogin() {
     setLoading(false);
   };
 
-  const anonymousLogin = () => {
+  const anonymousLogin = async () => {
+    setLoading(true)
+    await new Promise((resolve) => setTimeout(resolve, 1000)); // fake delay
     router.replace({
       pathname: '/tierSelection/tier-selection',
       params: { email: 'anonymous', password: 'anonymous' },
     });
+     Toast.show({
+        type: 'success',
+        text1: 'Login Successful',
+        text2: "Testing Mode On",
+      });
   }
 
   return {

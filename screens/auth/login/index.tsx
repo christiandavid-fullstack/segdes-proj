@@ -20,6 +20,8 @@ import loginDefaultValues from './loginSchema/loginDefaultValues';
 
 export default function LoginScreen() {
   const { handleLogin, loading, anonymousLogin } = useLogin();
+  //  const [count, setCount] = useRecoilState(numberStateAtom);
+
   const {
     control,
     handleSubmit,
@@ -116,7 +118,13 @@ export default function LoginScreen() {
               Anonymous for testing
             </Text>
           </TouchableOpacity>
+            {/* <Text style={{ fontSize: 24, marginBottom: 10 }}>Count: {count}</Text>
+      <Button title="Increment" onPress={() => setCount(count + 1)} />
+      <View style={{ marginTop: 10 }}>
+        <Button title="Decrement" onPress={() => setCount(count - 1)} />
+      </View> */}
         </View>
+        
       </ScrollView>
     </KeyboardAvoidingView>
   );

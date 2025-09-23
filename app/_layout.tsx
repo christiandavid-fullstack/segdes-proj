@@ -11,6 +11,7 @@ export default function RootLayout() {
   const colorScheme = useColorScheme();
  
   return (
+    // <RecoilRoot>
     <AuthProvider>
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
@@ -21,5 +22,6 @@ export default function RootLayout() {
       <StatusBar style="auto" />
     </ThemeProvider>
   </AuthProvider>
+// </RecoilRoot>
   );
 }
