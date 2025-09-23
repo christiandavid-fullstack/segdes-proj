@@ -5,6 +5,7 @@ type Props = {
   title: string;
   capMB: number;
   throttleKbps: number;
+  desciption?:string;
   priceTable: { [period: number]: number };
   selected?: boolean;
   onSelect: () => void;
@@ -14,6 +15,7 @@ const TierCard: React.FC<Props> = ({
   title,
   capMB,
   throttleKbps,
+  desciption,
   priceTable,
   selected = false,
   onSelect,
@@ -50,6 +52,9 @@ const TierCard: React.FC<Props> = ({
       {selected && (
         <Text className="text-right mt-3 text-blue-500 font-semibold">✓ Selected</Text>
       )}
+      {desciption && (
+        <Text className="text-gray-600 mt-2 italic">{desciption}</Text>
+        )}
     </Pressable>
   );
 };

@@ -104,15 +104,19 @@ export default function LoginScreen() {
               Register
             </Text>
           </TouchableOpacity>
-
+          <TouchableOpacity
+            onPress={() => {}}
+            className="mt-4"
+          >
+            <Text className="text-center text-black underline font-medium text-sm" >
+             Forget Password?
+            </Text>
+          </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {}}
             className="mt-4"
             disabled={loading}
           >
-            <Text className="text-center text-black underline font-medium text-sm" >
-             Forget Password?
-            </Text>
             <Text className="text-center text-black underline font-medium text-sm" 
               onPress={anonymousLogin}>
               Anonymous for testing
