@@ -6,5 +6,6 @@ export default function IndexRedirect() {
   // if (authenticated) {
   //   return <Redirect href="/tierSelection/tier-selection" />;
   // }
-  return <Redirect href="/auth/login" />;
+  // return <Redirect href="/auth/login" />;
+  return <Redirect href={'/getStarted/getstarted'}/>
 }

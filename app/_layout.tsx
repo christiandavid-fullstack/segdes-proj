@@ -11,16 +11,18 @@ export default function RootLayout() {
   const colorScheme = useColorScheme();
  
   return (
+    // <RecoilRoot>
     <AuthProvider>
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
         <Stack.Screen name="auth" options={{ headerShown: false }} />
         <Stack.Screen name="tierSelection" options={{ headerShown: false }} />
-
+        <Stack.Screen name='getStarted' options={{headerShown:false}}/>
       </Stack>
       <Toast />
       <StatusBar style="auto" />
     </ThemeProvider>
   </AuthProvider>
+// </RecoilRoot>
   );
 }

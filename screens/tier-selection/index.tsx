@@ -1,14 +1,8 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import TierCard from '@/components/ui/tierCard';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'expo-router';
-import React from 'react';
-import { Button, ScrollView, Text, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
+import { Button, ScrollView, Text, View } from 'react-native';
 import Toast from 'react-native-toast-message';
 
 const tiers = [
@@ -33,27 +27,47 @@ export default function TierSelectionScreen() {
 // router.replace()	Replaces the current screen (user cannot go back)
 // router.back()	Navigates back in history (like Android/iOS back button)
   };
+    const [tier, setTier] = useState<'economy' | 'comfort' | 'plus' | null>(null);
+
   return (
     <ScrollView
-      className="flex-1 p-5"
+      className="flex-1 p-10"
       showsVerticalScrollIndicator={false}
-      contentContainerStyle={{ alignItems: 'center', paddingVertical: 20 }}
+      contentContainerStyle={{ paddingVertical: 20 }}
     >
-      <Text className="text-2xl font-bold text-center mb-6">Choose Your Tier</Text>
+     <View className='items-center'>
+        <Text className="text-xl font-semibold text-gray-800 mb-4">
+      Select a Tier
+    </Text>
+    </View>
+   
+       <TierCard
+        title="Economy"
+        capMB={1000}
+        throttleKbps={512}
+        priceTable={{ 7: 5, 15: 9, 30: 15 }}
+        selected={tier === 'economy'}
+        onSelect={() => setTier('economy')}
+      />
 
-      {tiers.map((tier) => (
-        <TouchableOpacity key={tier.id} activeOpacity={0.8} className="items-center">
-          <Card className="my-5 w-80 bg-gray-100 border border-gray-300 active:bg-blue-100 active:border-blue-500">
-            <CardHeader>
-              <CardTitle>{tier.name}</CardTitle>
-              <CardDescription>{tier.description}</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Text className="text-md text-gray-700">{tier.price}</Text>
-            </CardContent>
-          </Card>
-        </TouchableOpacity>
-      ))}
+      <TierCard
+        title="Comfort"
+        capMB={3000}
+        throttleKbps={1024}
+        priceTable={{ 7: 9, 15: 15, 30: 25 }}
+        selected={tier === 'comfort'}
+        onSelect={() => setTier('comfort')}
+      />
+
+      <TierCard
+        title="Plus"
+        capMB={5000}
+        throttleKbps={2048}
+        priceTable={{ 7: 12, 15: 20, 30: 35 }}
+        selected={tier === 'plus'}
+        onSelect={() => setTier('plus')}
+      />
+    
       <Button title="Logout" onPress={handleBack} />
 
     </ScrollView>
