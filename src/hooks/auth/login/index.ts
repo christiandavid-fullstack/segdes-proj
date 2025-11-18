@@ -1,5 +1,5 @@
 import { useAuth } from '@/context/AuthContext';
-import { LoginSchema } from '@/screens/auth/login/loginSchema';
+import { LoginSchema } from '@/src/screens/auth/login/loginSchema';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import Toast from 'react-native-toast-message';
