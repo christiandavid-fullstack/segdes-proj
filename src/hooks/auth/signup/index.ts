@@ -1,4 +1,4 @@
-import { SignupSchema } from "@/screens/auth/signup/signupSchema";
+import { SignupSchema } from "@/src/screens/auth/signup/signupSchema";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import Toast from "react-native-toast-message";
